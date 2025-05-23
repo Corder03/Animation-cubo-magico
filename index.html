@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO Cube - Revolução em Cubos Mágicos | Animação Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #4db8ff;
+            --text: #f8f9fa;
+            --dark: #212529;
+            --light: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark), #121212);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            width: 50%;
+            z-index: 10;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 80%;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(106, 17, 203, 0.4);
+        }
+        
+        .cube-container {
+            position: absolute;
+            right: 20%;
+            width: 20%;
+            height: 50%;
+            perspective: 1000px;
+        }
+        
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate 15s infinite linear;
+        }
+        
+        .face {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
+        }
+        
+        .cubie {
+            width: 33.33%;
+            height: 33.33%;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+        
+        .front { transform: translateZ(150px); background-color: #000000; }
+        .back { transform: rotateY(180deg) translateZ(150px); background-color: #000000; }
+        .right { transform: rotateY(90deg) translateZ(150px); background-color: #000000; }
+        .left { transform: rotateY(-90deg) translateZ(150px); background-color: #000000; }
+        .top { transform: rotateX(90deg) translateZ(150px); background-color: #000000; }
+        .bottom { transform: rotateX(-90deg) translateZ(150px); background-color: #000000; }
+        
+        @keyframes rotate {
+            0% { transform: rotateX(-20deg) rotateY(0deg); }
+            100% { transform: rotateX(-20deg) rotateY(360deg); }
+        }
+        
+        .features {
+            padding: 8rem 10%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 5rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .interactive-section {
+            padding: 8rem 10%;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(33, 37, 41, 0.8), rgba(18, 18, 18, 0.9));
+        }
+        
+        .cube-controls {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .control-button {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .control-button:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: translateY(-3px);
+        }
+        
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 3rem 10%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 100px;
+            }
+            
+            .hero-content {
+                width: 100%;
+                margin-bottom: 3rem;
+            }
+            
+            .hero p {
+                max-width: 100%;
+            }
+            
+            .cube-container {
+                position: relative;
+                right: auto;
+                width: 100%;
+                height: 300px;
+                margin-top: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+            .social-links a:hover .fa-facebook-f {
+  color: #073b80; /* Azul do Facebook */
+}
+
+.social-links a:hover .fa-twitter {
+  color: #1da1f2; /* Azul do Twitter */
+}
+
+.social-links a:hover .fa-instagram {
+  color: #e4405f; /* Rosa/laranja do Instagram */
+}
+
+.social-links a:hover .fa-youtube {
+  color: #ff0000; /* Vermelho do YouTube */
+}
+
+.social-links a:hover .fa-tiktok {
+  color: #7e07a3; /* Preto do TikTok (ou personalize com gradiente se quiser) */
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-cube"></i>
+            <span>NEO Cube</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features">Recursos</a>
+            <a href="#interactive">Experimente</a>
+            <a href="#about">Sobre</a>
+            <a href="#contact">Contato</a>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Revolucione sua experiência com cubos mágicos</h1>
+            <p>O NEO Cube combina design inovador, tecnologia avançada e um sistema de rotação suave para oferecer a melhor experiência em cubos mágicos.</p>
+            <a href="slakk.html" class="cta-button">Experimente Agora</a>
+        </div>
+        
+        <div class="cube-container">
+            <div class="cube">
+                <div class="face front">
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #f84141;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #5252f9;"></div>
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #4be34b;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+</div>
+<div class="face back">
+    <div class="cubie" style="background-color: #4be34b;"></div>
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #5252f9;"></div>
+    <div class="cubie" style="background-color: #f84141;"></div>
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #5252f9;"></div>
+    <div class="cubie" style="background-color: #4be34b;"></div>
+</div>
+<div class="face right">
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+    <div class="cubie" style="background-color: #5252f9;"></div>
+    <div class="cubie" style="background-color: #f84141;"></div>
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #4be34b;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #f84141;"></div>
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+</div>
+<div class="face left">
+    <div class="cubie" style="background-color: #5252f9;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #4be34b;"></div>
+    <div class="cubie" style="background-color: #f84141;"></div>
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+    <div class="cubie" style="background-color: #4be34b;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #f84141;"></div>
+</div>
+<div class="face top">
+    <div class="cubie" style="background-color: #f84141;"></div>
+    <div class="cubie" style="background-color: #4be34b;"></div>
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+    <div class="cubie" style="background-color: #5252f9;"></div>
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #f84141;"></div>
+    <div class="cubie" style="background-color: #4be34b;"></div>
+</div>
+<div class="face bottom">
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+    <div class="cubie" style="background-color: #4be34b;"></div>
+    <div class="cubie" style="background-color: #FFFFFF;"></div>
+    <div class="cubie" style="background-color: #5252f9;"></div>
+    <div class="cubie" style="background-color: #f84141;"></div>
+    <div class="cubie" style="background-color: #ebeb33;"></div>
+    <div class="cubie" style="background-color: #e8a933;"></div>
+    <div class="cubie" style="background-color: #5252f9;"></div>
+</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features" id="features">
+        <h2 class="section-title">Recursos Exclusivos</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h3>Rotação Ultra Suave</h3>
+                <p>Mecanismo de rotação avançado que permite movimentos precisos e sem atrito, ideal para speedcubers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Design Premium</h3>
+                <p>Cores vibrantes e acabamento de alta qualidade que não desbotam com o uso prolongado.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3>Sistema Ajustável</h3>
+                <p>Tensão personalizável para adaptar o cubo ao seu estilo de resolução preferido.</p>
+            </div>
+        </div>
+    </section>
+    
+    
+    <footer class="footer" id="contact">
+        <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
+            <i class="fas fa-cube"></i>
+            <span>NEO Cube</span>
+        </div>
+        <p>Uma inovação da Empresa de Animação Digital</p>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        
+        <p>&copy; 2025 Empresa de Animação Digital. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script>
+        // Interactive Cube Controls
+        const cube = document.getElementById('interactive-cube');
+        let rotationX = -20;
+        let rotationY = 0;
+        
+        function rotateCube(direction) {
+            switch(direction) {
+                case 'front':
+                    rotationX += 90;
+                    break;
+                case 'back':
+                    rotationX -= 90;
+                    break;
+                case 'left':
+                    rotationY -= 90;
+                    break;
+                case 'right':
+                    rotationY += 90;
+                    break;
+                case 'up':
+                    rotationX -= 90;
+                    break;
+                case 'down':
+                    rotationX += 90;
+                    break;
+            }
+            
+            cube.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+        }
+        
+        function resetCube() {
+            rotationX = -20;
+            rotationY = 0;
+            cube.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+        }
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.pageYOffset;
+            const cubeContainer = document.querySelector('.hero .cube-container');
+            
+            if (cubeContainer) {
+                cubeContainer.style.transform = `translateY(${scrollPosition * 0.3}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Feito por Cordeiro -->
